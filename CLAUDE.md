@@ -1,17 +1,14 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Repo purpose
+團隊共用的 Claude Code 擴充工具箱：自訂 slash command、subagent 與 skill。沒有應用程式碼、build 流程、lint 或測試 —— 所有內容皆為 Markdown 設定檔（搭配 YAML frontmatter）。
 
-This is a team-shared toolbox of Claude Code extensions: custom slash commands, subagents, and skills. There is no application code, build step, lint, or test suite — all content is Markdown configuration files with YAML frontmatter.
+## 結構
 
-## Structure
+- `.claude/commands/` — 自訂 slash command（檔名採 kebab-case，例如 `branch-cleanup.md`）。frontmatter 須包含 `description`，可選填 `argument-hint`、`allowed-tools`。
+- `.claude/agents/` — 自訂 subagent。frontmatter 須包含 `name`、`description`、`model`。
+- `.claude/skills/` — Claude Code 可使用的 skill，每個 skill 為 `skills/{skill-name}/` 資料夾，內含 `SKILL.md`（須包含 `name`、`description` frontmatter）。
 
-- `.claude/commands/` — custom slash commands (kebab-case filenames, e.g. `branch-cleanup.md`). Frontmatter requires `description`, may include `argument-hint`, `allowed-tools`.
-- `.claude/agents/` — custom subagents. Frontmatter requires `name`, `description`, `model`.
-- `.claude/skills/` — skills available to Claude Code. Each skill is a folder `skills/{skill-name}/` containing `SKILL.md` with `name` and `description` frontmatter.
+## 貢獻指南
 
-## Contribution guidance
-
-Before adding a new command/agent/skill, check whether an already-installed official plugin covers the same need (commit-commands, pr-review-toolkit, code-review, code-simplifier, code-modernization, feature-dev, hookify, ralph-loop, etc.) to avoid duplication. New tools should follow the naming/frontmatter conventions above, with a short description added to this file or the relevant directory.
+新增 command/agent/skill 前，請先確認是否已有官方 plugin 涵蓋相同需求（commit-commands、pr-review-toolkit、code-review、code-simplifier、code-modernization、feature-dev、hookify、ralph-loop 等），以避免重複。新工具應遵循上述命名/frontmatter 慣例，並在本檔案或相關目錄中加入簡短說明。
