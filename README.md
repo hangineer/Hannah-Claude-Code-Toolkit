@@ -21,7 +21,3 @@
 
 - `project-context` — 用於快速了解專案結構、技術棧與慣例。
 - `vue3-project-coding-guidelines` — 依團隊規範審查 Vue 3 程式碼（命名、BEM CSS、資料夾結構、Vue 風格規則）。
-
-## 使用方式
-
-把 `.claude/commands/`、`.claude/agents/`、`.claude/skills/` 複製到你的專案根目錄，即可在 Claude Code 中直接使用。
