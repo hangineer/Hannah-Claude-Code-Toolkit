@@ -1,13 +1,13 @@
 ---
-description: List merged or stale local branches and help clean them up
+description: 列出已合併或過期的本機分支並協助清理
 allowed-tools: Bash(git *)
 ---
 
-Help the user clean up local git branches:
+協助使用者清理本機 git 分支：
 
-1. Run `git fetch --prune` to update remote branch information.
-2. List local branches that have already been merged into the current main branch (`main` or `master`, depending on the repo), excluding the current branch and the main branch itself.
-3. List local branches with no commits in the last 30 days, excluding the current branch and the main branch itself.
-4. Present both lists as bullet points, noting each branch's last commit date and message.
-5. Ask the user which branches (if any) they want to delete. If confirmed, run `git branch -d <branch>` (for merged branches) or `git branch -D <branch>` (for unmerged branches, only if the user explicitly requests a force delete).
-6. Do not delete any branch proactively — only delete after explicit user confirmation.
+1. 執行 `git fetch --prune` 更新遠端分支資訊。
+2. 列出已合併進目前 main 分支（依該 repo 而定為 `main` 或 `master`）的本機分支，排除目前所在分支與 main 分支本身。
+3. 列出最近 30 天內沒有任何 commit 的本機分支，排除目前所在分支與 main 分支本身。
+4. 將兩份清單以條列方式呈現，並標註每個分支最後一次 commit 的日期與訊息。
+5. 詢問使用者要刪除哪些分支（如果有）。確認後，對已合併分支執行 `git branch -d <branch>`；對未合併分支，僅在使用者明確要求強制刪除時執行 `git branch -D <branch>`。
+6. 不要主動刪除任何分支 —— 必須經使用者明確確認後才執行刪除。

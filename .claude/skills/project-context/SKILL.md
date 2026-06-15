@@ -1,34 +1,34 @@
 ---
 name: project-context
-description: Use when the user asks to "introduce this project," "what does this project do," "help me understand this repo," or at the start of a new conversation when a quick overview of the project structure, tech stack, and conventions is needed.
+description: 當使用者要求「介紹這個專案」、「這個專案是做什麼的」、「幫我了解這個 repo」，或在新對話開始時需要快速了解專案結構、技術棧與慣例時使用。
 version: 0.1.0
 ---
 
 # Project Context
 
-## Goal
+## 目標
 
-Quickly summarize the project's structure, tech stack, and development conventions to help the user (or a new collaborator) get up to speed on the project as fast as possible.
+快速整理專案的結構、技術棧與開發慣例，協助使用者（或新加入的協作者）盡快上手這個專案。
 
-## Steps
+## 步驟
 
-1. **Basic info**: Read `README.md` and `CLAUDE.md` (if present) to understand the project's purpose and existing documentation.
-2. **Tech stack**: Check dependency manifest files (e.g. `package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`, etc.) and list the main languages, frameworks, and key dependencies.
-3. **Directory structure**: List the project's main directories (about 2-3 levels deep, excluding `.git`, `node_modules`, `dist`, `build`, etc.) and briefly describe each directory's purpose.
-4. **Development conventions**:
-   - Check for lint/format configs (e.g. `.eslintrc`, `.prettierrc`, the `[tool.ruff]` section in `pyproject.toml`, etc.)
-   - Check the testing framework and test directory locations
-   - Check `.claude/` for custom commands, agents, and skills, and briefly describe their purpose
-5. **Recent activity**: Run `git log --oneline -10` to understand the direction of recent changes.
+1. **基本資訊**：閱讀 `README.md` 與 `CLAUDE.md`，了解專案目的與現有文件。
+2. **技術棧**：檢查相依套件設定檔（例如 `package.json`、`pyproject.toml`、`go.mod`、`Cargo.toml` 等），列出主要語言、框架與關鍵相依套件。
+3. **目錄結構**：列出專案主要目錄（約 2-3 層，排除 `.git`、`node_modules`、`dist`、`build` 等），並簡述每個目錄的用途。
+4. **開發慣例**：
+   - 檢查 lint/format 設定（例如 `.eslintrc`、`.prettierrc`、`pyproject.toml` 中的 `[tool.ruff]` 等）
+   - 檢查測試框架與測試目錄位置
+   - 檢查 `.claude/` 中的自訂 command、agent、skill，並簡述其用途
+5. **近期動態**：執行 `git log --oneline -10` 了解近期變更方向。
 
-## Output format
+## 輸出格式
 
-Present the summary as a bulleted list with the following structure:
+以條列方式呈現摘要，結構如下：
 
-- **Project overview**: one or two sentences describing what this project is
-- **Tech stack**: languages, frameworks, key dependencies
-- **Directory structure**: main directories and their purposes
-- **Development conventions**: lint/format/testing conventions, contents of the Claude toolbox
-- **Recent activity**: direction of recent commits
+- **專案概覽**：一到兩句話描述這個專案是什麼
+- **技術棧**：語言、框架、關鍵相依套件
+- **目錄結構**：主要目錄與其用途
+- **開發慣例**：lint/format/測試慣例、Claude 工具箱內容
+- **近期動態**：近期 commit 的方向
 
-The summary should be concise and avoid listing file contents line by line; if the user wants to dive deeper into a specific part afterward, refer to the corresponding file.
+摘要應簡潔，避免逐行列出檔案內容；若使用者之後想深入了解特定部分，再參考對應檔案即可。
