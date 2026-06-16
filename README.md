@@ -21,3 +21,4 @@
 
 - `project-context` — 用於快速了解專案結構、技術棧與慣例。
 - `vue3-project-coding-guidelines` — 依團隊規範審查 Vue 3 程式碼（命名、BEM CSS、資料夾結構、Vue 風格規則）。
+- `vue2-project-coding-guidelines` — 依團隊規範審查 Vue 2（Options API）程式碼（命名、BEM CSS、資料夾結構、Vue 風格規則）。
