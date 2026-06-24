@@ -31,7 +31,7 @@ GET {GITLAB_API_URL}/api/v4/projects/{encoded_path}/merge_requests/{id}
 POST {GITLAB_API_URL}/api/v4/projects/{encoded_path}/merge_requests/{id}/discussions
 Content-Type: application/json
 {
-  "body": "<問題說明，含建議修正方式>",
+  "body": "<粗體標題，如 **🟡 設計問題**：>\n\n<問題說明，含建議修正方式>",
   "position": {
     "position_type": "text",
     "base_sha": "<base_sha>",
@@ -42,6 +42,7 @@ Content-Type: application/json
   }
 }
 ```
+- `body` 格式：粗體標題（如 `**🟡 設計問題**：`）後必須換行（`\n\n`），再另起一段寫問題說明與建議修正方式，不要讓標題和內容黏在同一行
 - `new_line`：使用 review 中提到的行號（新版檔案的行號）
 - 若是針對已刪除的行，改用 `old_path` 和 `old_line`
 - 若 GitLab 回傳 `422`（行號不在 diff 中），改為不帶 `position` 的 general comment，並在留言內容中標注檔案路徑與行號
