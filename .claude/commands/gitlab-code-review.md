@@ -1,5 +1,6 @@
 ---
 description: 透過 GitLab API 抓取 MR 的 diff，進行完整 code review
+argument-hint: <MR_URL>
 ---
 
 請依照以下步驟 review GitLab MR：
@@ -10,7 +11,7 @@ description: 透過 GitLab API 抓取 MR 的 diff，進行完整 code review
 
 1. 讀取 `~/.claude/settings.json`，取得 `mcpServers.gitlab.env` 中的 `GITLAB_PERSONAL_ACCESS_TOKEN` 和 `GITLAB_API_URL`。
 
-2. 從 MR URL 解析出 **project path** 和 **MR ID**。將 project path URL encode（`/` → `%2F`）。
+2. 從 MR URL 解析出 **project path**和 **MR ID**（如 `410`）。將 project path URL encode（`/` → `%2F`）。
 
 3. 使用 curl 呼叫 GitLab API 抓取 MR 資訊：
    ```
