@@ -26,13 +26,22 @@ GET {GITLAB_API_URL}/api/v4/projects/{encoded_path}/merge_requests/{id}
 ```
 從回傳的 `diff_refs` 中取出 `base_sha`、`start_sha`、`head_sha`，這三個 SHA 是留 inline comment 必要的座標。
 
-### 4. 整理 review 發現
+### 4. 列出 review 發現，等待使用者選擇
 從目前對話中整理所有 review 問題，區分為兩類：
 
 **A. 有明確檔案路徑（+ 行號）的問題** → 留 inline comment
 **B. 整體架構、無特定行號的建議** → 留 general summary comment
 
-### 5. 留 inline comment（針對每個 A 類問題）
+使用 `AskUserQuestion` 工具，以 `multiSelect: true` 呈現所有問題，讓使用者直接勾選要留言的項目：
+
+- 每個選項的 `label` 格式：`🔴 / 🟡 / 🟢  <問題摘要>（檔案路徑[:行號]）`
+- 「✅ 做得好的地方」**不列入選項**，固定加入總覽
+
+等使用者確認選擇後，再繼續後續步驟。
+
+### 5. 留個別留言（針對**選中**的所有問題）
+
+**A 類（有行號）→ inline comment（帶 position）：**
 ```
 POST {GITLAB_API_URL}/api/v4/projects/{encoded_path}/merge_requests/{id}/discussions
 Content-Type: application/json
@@ -51,10 +60,19 @@ Content-Type: application/json
 - `body` 格式：粗體標題（如 `**🟡 設計問題**：`）後必須換行（`\n\n`），再另起一段寫問題說明與建議修正方式，不要讓標題和內容黏在同一行
 - `new_line`：使用 review 中提到的行號（新版檔案的行號）
 - 若是針對已刪除的行，改用 `old_path` 和 `old_line`
-- 若 GitLab 回傳 `422`（行號不在 diff 中），改為不帶 `position` 的 general comment，並在留言內容中標注檔案路徑與行號
+- 若 GitLab 回傳 `422`（行號不在 diff 中），改為下方 B 類方式補發，並在 body 中標注檔案路徑與行號
 
-### 6. 留 general summary comment（B 類問題 + 整體摘要）
-將所有 review 發現依優先級分組，組成以下格式的 Markdown 留言：
+**B 類（無特定行號）→ general comment（不帶 position）：**
+```
+POST {GITLAB_API_URL}/api/v4/projects/{encoded_path}/merge_requests/{id}/discussions
+Content-Type: application/json
+{
+  "body": "<粗體標題，如 **🔴 風險**：>\n\n<問題說明，含建議修正方式>"
+}
+```
+
+### 6. 留 general summary comment（**選中**的 B 類問題 + 整體摘要）
+只將使用者選中的問題依優先級分組，組成以下格式的 Markdown 留言：
 
 ```
 ## Code Review Summary by FET
