@@ -21,7 +21,8 @@
 
 ## Skills
 
-** 官方 **
+**官方**
+
 取自 [Anthony Fu's Skills](https://github.com/antfu/skills)
 
 - `vue` — Vue 3 Composition API、script setup macros、reactivity、內建元件（Transition/Teleport/Suspense 等）。
