@@ -1,15 +1,15 @@
 ---
-name: vue3-project-coding-guidelines
-description: 依團隊規範審查 Vue 3 程式碼（元件、store、composable、樣式），檢查命名、BEM CSS、資料夾結構與 Vue 風格規則。當使用者要求「review 這個 Vue 元件」、「檢查 Vue 命名規則」、「review 這個 MR/PR」，或在撰寫新的 Vue 3 元件/頁面/store 時使用。
+name: fet-vue2-coding-guidelines
+description: 依 FET 團隊規範審查 Vue 2（Options API）程式碼（元件、Vuex、樣式），檢查命名、BEM CSS、資料夾結構與 Vue 風格規則。當使用者要求「review 這個 Vue 元件」、「檢查 Vue 命名規則」、「review 這個 MR/PR」，或在撰寫新的 Vue 2 元件/頁面/store 時使用。
 ---
 
-# Vue 3 Coding Guidelines
+# Vue 2 Coding Guidelines
 
-依據團隊內部規範整理。審查 Vue 3 程式碼時，依下列項目逐一檢查，並指出違反項目與建議修正方式。
+依據團隊內部規範整理，針對 Vue 2（Options API）調整。審查 Vue 2 程式碼時，依下列項目逐一檢查，並指出違反項目與建議修正方式。
 
 ## 命名風格總則
 
-- `camelCase`：`.js` / `.ts`、`.css|.scss|.sass|.less`
+- `camelCase`：`.js`、`.css|.scss|.sass|.less`
 - `PascalCase`：`.vue` 畫面與模組（元件檔名）
 - `kebab-case`：設定檔（`.yml`、`Dockerfile` 等）、媒體檔案、router path（如 `location-agreement/edit`）
 - router name 使用 `camelCase`（如 `locationAgreement`）
@@ -24,25 +24,28 @@ description: 依團隊規範審查 Vue 3 程式碼（元件、store、composable
 - 不使用巢狀結構（SASS / CSS nesting）
 - 非必要不得使用 `!important`
 
-## Vue 元件規則
+## Vue 元件規則（Options API）
 
-- 採用 `<script setup>` 風格，標籤順序固定為 `template -> script -> style`
-- 自訂事件以 `on-` 開頭：`$emit('on-search')`，監聽端 `@on-search="handleDoSomething"`
+- 標籤順序固定為 `template -> script -> style`
+- `export default {}` 內的選項排列順序：`name -> components -> props -> data -> computed -> watch -> created/mounted 等生命週期 -> methods`
+- 元件名稱需為兩個單字組成且使用 `PascalCase`（如 `UserCard`）
+- 自訂事件以 `on-` 開頭：`this.$emit('on-search')`，監聽端 `@on-search="handleDoSomething"`
 - Props 為多字組合時使用 `camelCase`（`dataList`）；父層傳遞 props 給子層時使用 `kebab-case`（`:data-list="..."`）
+- `data()` 回傳物件的屬性使用 `camelCase`
+- `computed` 與 `methods` 使用 `camelCase`，並依下方命名慣例分類
 - 常數 `const` 全域不變動值使用 `UPPERCASE`（如 `USER_NAME`），一般變數 `let` 使用 `camelCase`
-- `ref()` / `reactive()` 變數使用 `camelCase`
 - class 類別使用 `PascalCase`
-- Element 上的 `ref` 使用 `camelCase` + `Ref` 後綴（如 `componentRef`）
+- Element 上的 `ref` 使用 `camelCase` + `Ref` 後綴（如 `componentRef`），透過 `this.$refs.componentRef` 存取
 - `v-on` 用法：有值才加括號（`@click="triggerAction"` vs `@click="triggerAction(state)"`）
 - `<template>` 內不可寫註解
 - 元件內不使用 `i18n`（i18n 屬於頁面層）
 - 如使用原生元件，優先透過 `v-bind="$attrs"` 繼承原生功能；若 Web API 已提供功能，優先使用 Web API
 - 不使用巢狀 CSS / `!important`，共用元件放在 `/utils`
-- 透過 `computed()` 管理狀態：預設狀態設為 `true`，不同類別狀態使用不同 `computed()`
+- 透過 `computed` 管理狀態：預設狀態設為 `true`，不同類別狀態使用不同 `computed`
 
 ## 函式 / 變數命名慣例
 
-- Pinia / Vuex actions：`create` / `get` / `update` / `delete`（CRUD）
+- Vuex actions：`create` / `get` / `update` / `delete`（CRUD）
 - API request：`getUserList`、`postUserList`、`patchUserList` / `putUserList`、`deleteUserList`
 - Boolean：
   - 判斷是否有/為某值：`has-`（`hasPermission`）、`is-`（`isPermission`）、`show-`（`showTimeAgo`）
@@ -86,17 +89,18 @@ description: 依團隊規範審查 Vue 3 程式碼（元件、store、composable
 - 檢查未使用變數（`no-unused-vars`）、最大行長限制（`max-len`）
 - 元件名稱需為兩個單字組成（`vue/multi-word-component-names`）
 - 元件 tag 順序：`template -> script -> style`（`vue/component-tags-order`）
-- 屬性排序（`vue/attributes-order`）、`defineProps`/`defineEmits` 順序（`vue/define-macros-order`）
+- 屬性排序（`vue/attributes-order`）
+- `export default {}` 內選項排序（`vue/order-in-components`）
 
 ## 資料夾與檔案結構
 
 - `components/`：共用組件，依功能命名；耦合元件以父層名稱開頭（如 `TableHeader.vue`、`TableBody.vue`）
 - `views/[PascalCase]/`：`index.vue` 為主頁面，子組件用 `PascalCase` 命名
-- `stores/`：Pinia，每個功能一個檔案，`camelCase` 命名
+- `store/`：Vuex modules，每個功能一個檔案，`camelCase` 命名
 - `api/`：`index.js` 為引入點，`common.js` 為共用 API，其餘 `camelCase.js`
 - `locales/translations/`：依 RFC 4646 命名（`en.json`、`zh-TW.json`、`ja-JP.json` ...）
 - `tests/unit/components|views`：測試檔案對應 `[PascalCase].test.ts`
-- `.env`：變數以 `VITE_` 前綴，且依英文字首順序排列
+- `.env`：變數以 `VUE_APP_` 前綴，且依英文字首順序排列
 
 ## 審查輸出格式
 
